@@ -65,8 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/admincafe/**").hasRole("ADMIN");
+                .and();
+                //.authorizeRequests().antMatchers("/admincafe/**").hasRole("ADMIN");
 //                .and()
 //                .authorizeRequests().antMatchers(HttpMethod.GET, "/client/**").hasRole("CLIENT");
                /* .and()
