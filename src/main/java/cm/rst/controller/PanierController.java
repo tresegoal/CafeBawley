@@ -63,6 +63,30 @@ public class PanierController {
         return "redirect:/panier";
     }
 
+    @RequestMapping(value = "ajouterDetails/{id}", method = RequestMethod.POST)
+    public String ajouterDetails(HttpSession session,@PathVariable("id") Long id, RedirectAttributes redirAttrs,
+                           @RequestParam("qte") int qte) {
+        if( session.getAttribute("panier") == null) {
+            List<ProduitCommande> panier = new ArrayList<ProduitCommande>();
+            panier.add(new ProduitCommande(produitService.voirProduit(id),qte));
+            session.setAttribute("panier", panier);
+            redirAttrs.addFlashAttribute("messagecreate", "le produit  " + panier.get(0).getProduit().getDesignation() + " a été ajouté avec success");
+
+        }else {
+            List<ProduitCommande> panier = (List<ProduitCommande>) session.getAttribute("panier");
+            int index = dejaPresent(id,panier);
+            if (index ==-1){
+                panier.add(new ProduitCommande(produitService.voirProduit(id),qte));
+                redirAttrs.addFlashAttribute("messagecreate", "le produit avec l'identifiant " + id + " a été ajouté avec success");
+            }else {
+                panier.get(index).setQuantiteCmd(qte);
+                redirAttrs.addFlashAttribute("messagecreate", "le produit  " + panier.get(index).getProduit().getDesignation() + " a été ajouté avec success");
+            }
+            session.setAttribute("panier", panier);
+        }
+        return "redirect:/panier";
+    }
+
     private double calculerTotal(HttpSession session) {
         List<ProduitCommande> panier = (List<ProduitCommande>) session.getAttribute("panier");
         double totalCmd=0;
