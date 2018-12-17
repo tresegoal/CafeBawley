@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Nav side </title>
+</head>
+<body>
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li>
+                    <div class="user-img-div">
+                        <img src="/assets/img/user.png" class="img-thumbnail" />
+
+                        <div class="inner-text">
+                            Jhon Deo Alex
+                            <br />
+                            <small>Last Login : 2 Weeks Ago </small>
+                        </div>
+                    </div>
+
+                </li>
+
+
+                <li>
+                    <a class="active-menu" href="index.html"><i class="fa fa-dashboard "></i>Tableau de bord</a>
+                </li>
+                <li>
+                    <a href="/admincafe/produit"><i class="fa fa-desktop "></i>Gestion des Produits <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/admincafe/produit"><i class="fa fa-toggle-on"></i>Lister les produits</a>
+                        </li>
+                        <li>
+                            <a href="/admincafe/produit/addProduit"><i class="fa fa-bell "></i>Ajouter produit</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/admincafe/categorie"><i class="fa fa-yelp "></i>Gestion des categories <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/admincafe/categorie"><i class="fa fa-coffee"></i>Liste des categories</a>
+                        </li>
+                        <li>
+                            <a href="/admincafe/categorie/addCategorie"><i class="fa fa-flash "></i>Creer une categorie</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/admincafe/images"><i class="fa fa-flash "></i>Gestion des images </a>
+                </li>
+                <li>
+                    <a href="/admincafe/commande"><i class="fa fa-bicycle "></i>Gestion des commandes <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+
+                        <li>
+                            <a href="/admincafe/commande"><i class="fa fa-desktop "></i>Liste des commandes</a>
+                        </li>
+                    </ul>
+                </li>
+               
+                <li>
+                    <a href="#"><i class="fa fa-sitemap "></i>Gestion des utilisateurs <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#"><i class="fa fa-bicycle "></i>Liste des utilisateurs</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-flask "></i>gestion des roles</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- /. NAV SIDE  -->
+</body>
+</html>

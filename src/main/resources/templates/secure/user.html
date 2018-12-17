@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout/layoutAdmin"
+      layout:decorate="~{layout/layoutAdmin}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des utilisateur</title>
+</head>
+<body>
+
+<div layout:fragment="header">
+    <div class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <a href="/" th:href="@{/}" class="logo"> <img src="../../static/img/logo-cafebawley.png" width="150px" height="80px" th:src="@{/img/logo-cafebawley.png}"
+                                                          alt="IMG-LOGO" /></a>
+            <div th:fragment="logout" class="logout navbar-right" sec:authorize="isAuthenticated()">
+                utilisateur: <b><span sec:authentication="name"></span></b>
+                <form action="#" th:action="@{/logout}" method="post">
+                    <button type="submit"  class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-log-out"></span>Log out</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li>
+                    <form th:object="${loggedInUser}" method="post">
+                        <div class="user-img-div">
+                            <img th:attr="src=@{*{image}}" class="img-responsive" style="width: 150px; height: 150px;"/>
+
+                            <div class="inner-text">
+                                <span th:text="*{email}" />
+                                <br />
+                            </div>
+                        </div>
+                    </form>
+                </li>
+
+                <!--<li>
+                    <a class="active-menu" href="#"><i class="fa fa-dashboard "></i>Tableau de bord</a>
+                </li>-->
+                <li>
+                    <a href="#"><i class="fa fa-desktop "></i>Mes infos <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/client/edit" th:href="${'/client/edit/'}"><i class="fa fa-toggle-on"></i>Modifier mon profil</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/client/pwd/{id}}" href="/client/pwd/{id}"><i class="fa fa-bell "></i>Changer mon mot de passe</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/client/commande"><i class="fa fa-yelp "></i>Mes commandes <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/client/commandes/{id}"><i class="fa fa-coffee"></i>Mes commandes</a>
+                        </li>
+                        <li>
+                            <a href="/client/adresses/{id}"><i class="fa fa-flash "></i>Mes adresses</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div layout:fragment="content">
+    <div class="row">
+
+        <div class="panel panel-primary" th:if="${loggedInUser}">
+            <div class="panel-heading">Mes infos</div>
+            <div class="panel-body">
+                    <form th:object="${loggedInUser}" method="post">
+                        <div class="row">
+                            <label class="col-sm-2 col-lg-2 control-label" for="email">Email :</label><span th:text="*{email}" />
+                        </div>
+                        <div class="row">
+                            <label for="nom" class="col-sm-2 col-lg-2 control-label">Nom :</label><span th:text="*{nom}" />
+                        </div>
+                        <div class="row">
+                            <label for="prenom" class="col-sm-2 col-lg-2 control-label">Prenom:</label><span th:text="*{prenom}" />
+                        </div>
+                        <div class="row">
+                            <label for="image" class="col-sm-2 col-lg-2 control-label">Image:</label><img th:attr="src=@{*{image}}" class="img-responsive" style="width: 150px; height: 150px;"/>
+                        </div>
+
+                    </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

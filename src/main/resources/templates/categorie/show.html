@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layoutAdmin"
+      layout:decorate="~{layout/layoutAdmin}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Voir une categorie</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${messagecreate} or ${messagedelete} or ${messageupdate}" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${messagecreate}"></p>
+        <p th:text="${messagedelete}"></p>
+        <p th:text="${messageupdate}"></p>
+    </div>
+    <h1 class="text-center">Bienvenue dans votre espace de gestion des categories</h1><br />
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                <h3 class="panel-title"><strong>Details de la categorie</strong></h3> </font></font>
+            </div>
+            <div class="panel-body">
+                <div class="alert alert-success" th:text="|Id de la categorie:#${categorie.id}|"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                     </font></font><a href="#" class="alert-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lien d'alerte</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+                </font></font></div>
+                <div class="alert alert-info" th:text="|Nom de la catégorie: ${categorie.designation}|"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                    </font></font><a href="#" class="alert-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lien d'alerte</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+                </font></font></div>
+                <div class="alert alert-warning" th:text="|Statut de la categorie:${categorie.active}|"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                    </font></font><a href="#" class="alert-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lien d'alerte</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+                </font></font></div>
+                <div class="alert alert-danger" th:text="|Date de modification de la categorie:${#dates.format(categorie.dateCreation, 'dd-MMM-yyyy HH:mm')}|"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                     </font></font><a href="#" class="alert-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lien d'alerte</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+                </font></font></div>
+                <div class="alert alert-danger" th:text="|Date de modification de la categorie:${#dates.format(categorie.dateModification, 'dd-MMM-yyyy HH:mm')}|"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                     </font></font><a href="#" class="alert-link"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lien d'alerte</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+                </font></font></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+

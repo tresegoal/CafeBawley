@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layoutAdmin"
+      layout:decorate="~{layout/layoutAdmin}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des categories</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${messagecreate} or ${messagedelete} or ${messageupdate}" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${messagecreate}"></p>
+        <p th:text="${messagedelete}"></p>
+        <p th:text="${messageupdate}"></p>
+    </div>
+    <h1 class="text-center">Bienvenue dans votre espace de gestion des categories</h1><br />
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Ajouter une nouvelle categorie</strong></h3>
+            </div>
+            <div class="panel-body">
+                <a th:href="@{/admincafe/categorie}" class="btn btn-primary btn-sm pull-right">
+                    <span class="fa fa-plus">Liste des categories</span>
+                </a><br /><br />
+                <form action="#" th:action="@{/admincafe/categorie/saveCategorie}" th:object="${categorie}" method="POST" class="form-group">
+                    <div class="form-group" th:class="${#fields.hasErrors('designation')} ? has-error">
+                        <label  for="designation">Designation</label>
+                        <input type="text" th:field="*{designation}" class="form-control" id="designation" />
+                        <span th:if="${#fields.hasErrors('designation')}" th:errors="*{designation}" th:errorclass="fieldError">Erreur designation</span>
+                    </div>
+                    <br />
+                    <input type="submit" class="btn btn-primary " value="Ajouter" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+

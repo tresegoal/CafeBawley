@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layoutAdmin"
+      layout:decorate="~{layout/layoutAdmin}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des images</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${messagecreate} or ${messagedelete} or ${messageupdate}" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${messagecreate}"></p>
+        <p th:text="${messagedelete}"></p>
+        <p th:text="${messageupdate}"></p>
+    </div>
+    <h1 class="text-center">Bienvenu dans votre espace de gestion</h1>
+
+    <div class="col-md-12">
+        <!-- Advanced Tables -->
+        <div class="panel panel-primary">
+            <div class="panel-heading"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                Liste des images
+            </font></font></div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info">
+                        <thead>
+                        <a th:href="@{/admincafe/images/addImage}" class="btn btn-primary btn-sm pull-right">
+                            <span class="fa fa-plus">Ajouter une image</span>
+                        </a> <br /><br />
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column ascending" style="width: 75px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Logo</font></font></th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 254px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nom du fichier</font></font></th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 100px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Produit associe</font></font></th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 139px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cree le</font></font></th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 98px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Modifie le</font></font></th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 315px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Action</font></font></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="gradeA odd" th:each="img:${images}">
+                        <td class="sorting_1"><img  th:src="@{'/image/'+${img.filename}}" width="50px" height="40px"/><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                        <td th:text="${img.filename}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                        <td th:text="${img.produit.designation}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                        <td th:text="${#dates.format(img.dateCreation, 'dd-MMM-yyyy HH:mm')}" class="center "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                        <td th:text="${#dates.format(img.dateModification, 'dd-MMM-yyyy HH:mm')}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                        <td class="">
+                            <a class="btn btn-info btn-xs" th:href="@{'/admincafe/images/voirImage/' +${img.id}}"><span class="fa fa-eye">Voir</span></a>
+                            <a class="btn btn-info btn-xs" th:href="@{'/admincafe/images/editImage/' +${img.id}}"><span class="glyphicon glyphicon-edit">Modifier</span></a>
+                            <a href="#" role="button" class="btn btn-danger btn-xs" data-toggle="modal" th:attr="data-target=${'#supprimer'+ img.id}"  data-placement="top" title="desactive" data-original-title="desactive"><i class="fa fa-trash-o">Supprimer</i></a>
+                            <!--<div th:if="${cat.active == true}"><a href="#" role="button" class="btn btn-danger btn-xs" data-toggle="modal" th:attr="data-target=${'#desactive'+ cat.id}"  data-placement="top" title="desactive" data-original-title="desactive"><i class="fa fa-close">Desactiver</i></a></div>
+                            <div th:if="${cat.active == false}"><a  href="#" role="button" class="btn btn-success btn-xs" data-toggle="modal" th:attr="data-target=${'#active'+ cat.id}" data-placement="top" title="active" data-original-title="active"><i class="fa fa-check">Activer</i></a></div>-->
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--End Advanced Tables -->
+    </div>
+
+
+    <!-- Modal -->
+    <div th:each="img:${images}">
+        <div class="modal fade" th:attr="id=${'desactive'+ img.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="    margin-top: 80px">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></button>
+                    <h3 class="modal-title" id="exampleModalLabel"><i>Desactiver l'image:</i> <b th:text="${img.filename}" style="color:#ff0000"></b></h3>
+                </div>
+                <div class="modal-body">
+                    Voulez vous vraiment desactiver l'image <b th:text="${img.filename}" style="color:#ff0000"></b>
+                </div>
+                <div class="modal-footer" style="border-top: none">
+                    <form action="" th:action="@{/admincafe/images/desactiveImage/{id}(id=${img.id})}" method="post">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fermer</font></font></button>
+                        <input type="submit" class="btn btn-primary" value="Desactiver"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Modal -->
+    <div th:each="img:${images}">
+        <div class="modal fade" th:attr="id=${'active'+ img.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{${img.id}}" aria-hidden="true" style="    margin-top: 80px">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></button>
+                        <h3 class="modal-title" id="exampleModal"><i>Activer l'image:</i> <b th:text="${img.filename}" style="color:#ff0000"></b></h3>
+                    </div>
+                    <div class="modal-body">
+                        Voulez vous vraiment activer l'image <b th:text="${img.filename}" style="color:#ff0000"></b>
+                    </div>
+                    <div class="modal-footer" style="border-top: none">
+                        <form  action="" th:action="@{/admincafe/images/activeImage/{id}(id=${img.id})}" method="post">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fermer</font></font></button>
+                            <input type="submit" class="btn btn-primary" value="Activer"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:each="img:${images}">
+        <div class="modal fade" th:attr="id=${'supprimer'+ img.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{${img.id}}" aria-hidden="true" style="    margin-top: 80px">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></button>
+                        <h3 class="modal-title" id="exampleModalLab"><i>Activer l'image:</i> <b th:text="${img.filename}" style="color:#ff0000"></b></h3>
+                    </div>
+                    <div class="modal-body">
+                        Voulez vous vraiment supprimer l'image <b th:text="${img.filename}" style="color:#ff0000">?</b>
+                    </div>
+                    <div class="modal-footer" style="border-top: none">
+                        <form  action="" th:action="@{/admincafe/images/deleteImage/{id}(id=${img.id})}" method="post">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fermer</font></font></button>
+                            <input type="submit" class="btn btn-primary" value="Supprimer"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="javascript">
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable();
+        });
+    </script>
+</th:block>
+
+</body>
+</html>
+
+
+

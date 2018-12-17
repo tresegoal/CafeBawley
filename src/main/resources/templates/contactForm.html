@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="../static/vendor/bootstrap/css/bootstrap.min.css"
+    th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"/>
+    <title>Contact</title>
+</head>
+<body>
+
+<div class="container">
+
+    <form th:action="@{/contacts/add}" method="post" th:object="${contact}">
+        <h4 class="mtext-105 cl2 txt-center p-b-30">
+            Envoyer nous un message
+        </h4>
+
+        <div class="bor8 m-b-20 how-pos4-parent">
+            <input th:field="*{email}" class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="email" placeholder="Your Email Address"/>
+            <img class="how-pos4 pointer-none" src="../static/img/icons/icon-email.png" th:src="@{/img/icons/icon-email.png}" alt="ICON"/>
+        </div>
+
+        <div class="bor8 m-b-30">
+            <textarea th:field="*{subject}" class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" name="subject" placeholder="How Can We Help?"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+            Envoyer
+        </button>
+    </form>
+
+
+</div>
+
+</body>
+</html>

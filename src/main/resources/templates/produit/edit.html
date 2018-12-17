@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layoutAdmin"
+      layout:decorate="~{layout/layoutAdmin}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des Produits</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${messagecreate} or ${messagedelete} or ${messageupdate}" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${messagecreate}"></p>
+        <p th:text="${messagedelete}"></p>
+        <p th:text="${messageupdate}"></p>
+    </div>
+    <h1 class="text-center">Bienvenue dans votre espace de gestion des Produits</h1><br />
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Ajouter un nouveau produit</strong></h3>
+            </div>
+            <div class="panel-body">
+                <form action="#" th:action="@{/admincafe/produit/updateProduit/{id}(id=${produit.id})}" th:object="${produit}" method="POST" class="form-group">
+                    <div class="form-group" th:class="${#fields.hasErrors('designation')} ? has-error">
+                        <label  for="designation">Designation</label>
+                        <input type="text" th:field="*{designation}" class="form-control" id="designation" value="$('produit.designation)" />
+                        <span th:if="${#fields.hasErrors('designation')}" th:errors="*{designation}" th:errorclass="fieldError">Erreur designation</span>
+                    </div>
+                    <div class="form-group" th:class="${#fields.hasErrors('designation')} ? has-error">
+                        <label  for="description">Description</label>
+                        <textarea th:field="*{description}" class="form-control" id="description" value="$('produit.description)"></textarea>
+                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:errorclass="fieldError">Erreur description</span>
+                    </div>
+                    <div class="form-group" th:class="${#fields.hasErrors('prixUnitHT')} ? has-error">
+                        <label  for="prixUnitHT">Prix unitaire HT</label>
+                        <input type="number" th:field="*{prixUnitHT}" class="form-control" id="prixUnitHT" value="$('produit.prixUnitHT)" />
+                        <span th:if="${#fields.hasErrors('prixUnitHT')}" th:errors="*{prixUnitHT}" th:errorclass="fieldError">Erreur Prix unitaire HT</span>
+                    </div>
+                    <div class="form-group" th:class="${#fields.hasErrors('quantite')} ? has-error">
+                        <label  for="quantite">Quantité</label>
+                        <input type="number" th:field="*{quantite}" class="form-control" id="quantite" value="$('produit.quantite)" />
+                        <span th:if="${#fields.hasErrors('quantite')}" th:errors="*{quantite}" th:errorclass="fieldError">Erreur quantite</span>
+                    </div>
+                    <div class="form-group" th:class="${#fields.hasErrors('tva')} ? has-error">
+                        <label  for="tva">Tva</label>
+                        <input type="number" th:field="*{tva}" class="form-control" id="tva" value="$('produit.tva)" />
+                        <span th:if="${#fields.hasErrors('tva')}" th:errors="*{tva}" th:errorclass="fieldError">Erreur tva</span>
+                    </div>
+                    <div class="form-group" th:class="${#fields.hasErrors('categorie')} ? has-error">
+                        <label  for="categorie">categorie</label>
+                        <select th:field="*{categorie}" id="categorie" class="form-control">
+                            <!--<option th:text="|selectionnez une categorie|"  th:value="${''}"></option>-->
+                            <option th:each="cat:${categories}" th:text="${cat.designation}"
+                                    th:value="${cat.id}"></option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('categorie')}" th:errors="*{categorie}" th:errorclass="fieldError">Erreur categorie</span>
+                    </div>
+                    <br />
+                    <input type="submit" class="btn btn-primary " value="Ajouter" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+

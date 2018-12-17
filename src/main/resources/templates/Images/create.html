@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layoutAdmin"
+      layout:decorate="~{layout/layoutAdmin}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des images</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${messagecreate} or ${messagedelete} or ${messageupdate}" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${messagecreate}"></p>
+        <p th:text="${messagedelete}"></p>
+        <p th:text="${messageupdate}"></p>
+    </div>
+    <h1 class="text-center">Bienvenue dans votre espace de gestion des images</h1><br />
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Ajouter une nouvelle image</strong></h3>
+            </div>
+            <div class="panel-body">
+                <a th:href="@{/admincafe/images}" class="btn btn-primary btn-sm pull-right">
+                    <span class="fa fa-plus">Liste des images</span>
+                </a> <br /><br />
+                <form action="#" th:action="@{/admincafe/images/saveImage}" th:object="${image}" method="POST" class="form-group" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4">Importer une image</label>
+                        <div class="">
+                            <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden" value="" name="" />
+                                <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px; line-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-file btn-success"><input type="file" name="file"/></span>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Retirer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" th:class="${#fields.hasErrors('produit')} ? has-error">
+                        <label  for="produit">Produit</label>
+                        <select name="produit" id="produit" class="form-control" required="required">
+                            <option th:text="|selectionnez un produit|"  th:value="${''}"></option>
+                            <option th:each="prod:${produits}" th:text="${prod.designation}"
+                                    th:value="${prod.id}"></option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('produit')}" th:errors="*{produit}" th:errorclass="fieldError">Erreur produit</span>
+                    </div>
+                    <br />
+                    <input type="submit" class="btn btn-primary " value="Ajouter" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="javascript">
+    <script src="assets/js/bootstrap-fileupload.js" th:src="@{/assets/js/bootstrap-fileupload.js}"></script>
+</th:block>
+</body>
+</html>
+
+
+

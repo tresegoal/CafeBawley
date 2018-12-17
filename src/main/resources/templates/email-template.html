@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Envoie de mails</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+
+    <!-- use the font -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 48px;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+    <tr>
+        <td align="center" bgcolor="#78ab46" style="padding: 40px 0 30px 0;">
+            <img src="../static/img/logo-cafebawley.png" alt="Logo Café Bawley" style="display: block;" />
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
+            <p th:text="${'Dear ' + name}"></p>
+            <p>Envoyer par l'app RST Café Bawley <b>Si tu reçois, C'est que tout est ok !</b></p>
+            <p>Merci</p>
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#777777" style="padding: 30px 30px 30px 30px;">
+            <p th:text="${signature}"></p>
+            <p th:text="${location}"></p>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layoutAdmin"
+      layout:decorate="~{layout/layoutAdmin}">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des utilisateur</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:if="${messagecreate} or ${messagedelete} or ${messageupdate}" class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${messagecreate}"></p>
+        <p th:text="${messagedelete}"></p>
+        <p th:text="${messageupdate}"></p>
+    </div>
+    <h1 class="text-center">Gestion des utilisateur</h1><br />
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Ajouter un utilisateur</strong></h3>
+            </div>
+            <div class="panel-body">
+                <a th:href="@{/admincafe/utilisateur}" class="btn btn-primary btn-sm pull-right">
+                    <span class="fa fa-plus">List des utilisateur</span>
+                </a><br /><br />
+                <form action="/admincafe/utilisateur/enregistrer" th:action="@{/admincafe/utilisateur/enregistrer}" th:object="${utilisateur}" method="post" >
+
+                    <div class="form-group">
+                        <label for="nom" class="control-label col-sm-2">Nom*</label> <input class="form-control" type="text" th:field="*{nom}" placeholder="Entrer nom"/>
+                        <div style="width:33%" id="nom" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="alert alert-danger">Erreur sur le nom</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="prenom" class="control-label col-sm-2">Prénom*</label> <input class="form-control" type="text" th:field="*{prenom}" />
+                        <div style="width:33%" id="prenom" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" class="alert alert-danger">Erreur sur le prénom</div>
+                    </div>
+                    <div class="form-group" >
+                        <label for="email" class="control-label col-sm-2">Email*</label> <input class="form-control" type="email" th:field="*{email}"  placeholder="Entrer l'email"/>
+                        <div style="width:33%" id="email"  th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger">Email Error</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="control-label col-sm-2">Mot de passe*</label> <input class="form-control" type="password" th:field="*{password}" />
+                        <div style="width:33%" id="password" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger">Erreur mot de passe</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordConfirm" class="control-label col-sm-2">Confirmation Mot de passe*</label> <input class="form-control" type="password" th:field="*{passwordConfirm}" />
+                        <div style="width:33%" id="passwordConfirm" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="alert alert-danger">Mot de passe confirmatin incorrect</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone" class="control-label col-sm-2">N° de téléphone*</label> <input class="form-control" type="text" th:field="*{telephone}" />
+                        <div style="width:33%" id="telephone" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="alert alert-danger">N° incorrect</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="image" class="control-label col-sm-2">Avatar*</label> <input class="form-control" type="file" th:field="*{image}" />
+                        <div style="width:33%" id="image" th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="alert alert-danger">Image incorrecte</div>
+                    </div>
+
+                    <input type="hidden" name="provider"  value="registration" />
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+

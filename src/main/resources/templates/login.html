@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/temp">
+<head>
+    <meta charset="UTF-8"/>
+    <title>connexion</title>
+</head>
+<body class="animsition">
+
+<div layout:fragment="content">
+
+    <div class="container" style="margin-top: 10%">
+
+        <h2 class="text-center mb-5">Se connecter</h2>
+
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card border-light">
+                    <div class="card-body">
+                        <form action="/connecte" th:action="@{/connecte}" method="post" style="display: inline">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input required="required" type="email" class="form-control" width="200" id="email" name="email" autofocus="autofocus"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" required="required" class="form-control" width="200" id="password" name="password"/>
+                                <p th:if="${loginError}" class="alert alert-danger">Erreur d'email ou de mot de passe</p>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary"><span class="fa fa-user"></span>Connecter</button>
+                        </form>
+
+                        <form action="/connect/google" method="POST" style="display: inline">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                            <input type="hidden" name="scope" value="profile email"/>
+                            <button type="submit" class="btn btn-danger">Google <span class="fa fa-google-plus"></span></button>
+                        </form>
+
+                        <form action="/connect/facebook" method="POST" style="display: inline">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                            <input type="hidden" name="scope" value="public_profile,email"/>
+                            <button type="submit" class="btn btn-primary">Facebook <span class="fa fa-facebook"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/row-->
+        <br/><br/><br/>
+    </div>
+    <!--/col-->
+</div>
+
+</body>
+</html>
