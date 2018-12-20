@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/admincafe/categorie")
-public class CategorieController {
+public class  CategorieController {
     @Autowired
     private final ICategorieService ics;
 
