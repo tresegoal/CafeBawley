@@ -34,18 +34,17 @@
 			<!-- Menu desktop -->
 			<div class="menu-desktop">
 				<ul class="main-menu">
-					<li class="active-menu"><a href="/" th:href="@{/}">Accueil</a></li>
+					<li th:class="(${#httpServletRequest.requestURI} == '/' ? 'active-menu' : '')"><a href="/" th:href="@{/}">Accueil</a></li>
 
-					<li><a href="/produit" th:href="@{/produit}">Boutique</a></li>
+					<li th:class="(${#httpServletRequest.requestURI} == '/produit' ? 'active-menu' : '')"><a href="/produit" th:href="@{/produit}">Boutique</a></li>
 
-					<li class="label1" data-label1="hot"><a
-							href="/livraison" th:href="@{/livraison}">Livraison</a></li>
+					<li th:class="(${#httpServletRequest.requestURI} == '/livraison' ? 'active-menu' : '')"><a href="/livraison" th:href="@{/livraison}">Livraison</a></li>
 
 					<!-- <li><a href="blog.html">Blog</a></li> -->
 
-					<li><a href="/panier" th:href="@{/panier}">Panier</a></li>
+					<li th:class="(${#httpServletRequest.requestURI} == '/panier' ? 'active-menu' : '')"><a href="/panier" th:href="@{/panier}">Panier</a></li>
 
-					<li><a href="/contact" th:href="@{/contact}">Contact</a></li>
+					<li th:class="(${#httpServletRequest.requestURI} == '/contact' ? 'active-menu' : '')"><a href="/contact" th:href="@{/contact}">Contact</a></li>
 				</ul>
 			</div>
 
@@ -56,9 +55,8 @@
 					<i class="zmdi zmdi-search"></i>
 				</div>
 
-				<div
-						class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-						th:attr="data-notify=${quantite}">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
+					th:attr="data-notify=${quantite}">
 					<i class="zmdi zmdi-shopping-cart" ></i>
 				</div>
 
