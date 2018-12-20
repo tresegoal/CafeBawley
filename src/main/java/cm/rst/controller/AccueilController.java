@@ -10,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -37,17 +34,7 @@ public class AccueilController {
     @RequestMapping(value = "")
     public String Accueil(Model model, HttpSession session) {
         Page<Produit> produits = produitService.listeReduiteProduit();
-        List<ProduitCommande> panier = (List<ProduitCommande>) session.getAttribute("panier");
-        int quantite = 0;
-        if (session.getAttribute("panier") == null) {
-            quantite = 0;
-        }else {
-            for (int i=0; i<panier.size(); i++) {
-                quantite += panier.get(i).getQuantiteCmd();
-            }
-        }
         model.addAttribute("produits",produits);
-        model.addAttribute("quantite",quantite);
         return "index";
     }
 
