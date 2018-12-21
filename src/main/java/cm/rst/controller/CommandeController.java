@@ -39,13 +39,13 @@ public class CommandeController {
     public String Index(Model model) {
        List<Commande> commandes = ics.listerCommande();
        model.addAttribute("commandes",commandes);
-        return "Commande/index";
+        return "commande/index";
     }
     
      @RequestMapping(value = "/addCommande", method = RequestMethod.GET)
     public String Create(Commande commande, Model model) {
         model.addAttribute("commande",commande);
-        return "Commande/create";
+        return "commande/create";
     }
     
     @RequestMapping(value = "/saveCommande", method = RequestMethod.POST)
@@ -68,7 +68,7 @@ public class CommandeController {
     public String Show(@PathVariable("id") long id, Model model) {
         Commande commande = ics.voirCommande(id);
         model.addAttribute("commande",commande);
-        return "Commande/show";
+        return "commande/show";
     }
     
     @RequestMapping(value = "/editCommande/{id}", method = RequestMethod.GET)
