@@ -54,10 +54,10 @@ public class LoginController {
         return googleProvider.getGoogleUserData(model, new Utilisateur());
     }
 
-    @RequestMapping(value = "/login")
+    /*@RequestMapping(value = "/login")
     public String login() {
         return "login";
-    }
+    }*/
 
     @GetMapping("/registration")
     public String showRegistration(Model model, Utilisateur registerForm) {

@@ -1,3 +1,4 @@
+/*
 package cm.rst.controller;
 
 import cm.rst.entities.Role;
@@ -9,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+*/
 /**
  * @author Fabrice
- */
+ *//*
+
 @Controller
 @RequestMapping("/role")
 public class RoleController {
@@ -69,3 +72,4 @@ public class RoleController {
         return "redirect:/roles";
     }
 }
+*/

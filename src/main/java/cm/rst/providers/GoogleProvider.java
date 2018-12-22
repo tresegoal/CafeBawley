@@ -41,8 +41,8 @@ public class GoogleProvider {
         Google google = baseProvider.getGoogle();
         Person googleUser = google.plusOperations().getGoogleProfile();
         userform.setEmail(googleUser.getAccountEmail());
-        userform.setPrenom(googleUser.getGivenName());
-        userform.setNom(googleUser.getFamilyName());
+        userform.setFirstName(googleUser.getGivenName());
+        userform.setLastName(googleUser.getFamilyName());
         userform.setImage(googleUser.getImageUrl());
         userform.setProvider(GOOGLE);
     }

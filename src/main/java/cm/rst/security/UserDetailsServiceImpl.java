@@ -1,3 +1,4 @@
+/*
 package cm.rst.security;
 
 import cm.rst.dao.UtilisateurRepository;
@@ -15,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 
+*/
 /**
  * @author Fabrice
- */
+ *//*
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -45,3 +48,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 }
 
+*/
