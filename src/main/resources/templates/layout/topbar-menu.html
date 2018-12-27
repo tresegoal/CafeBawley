@@ -16,7 +16,7 @@
 			<div class="right-top-bar flex-w h-full">
 				<a href="#" class="flex-c-m trans-04 p-lr-25"> Aide &amp; FAQs</a>
 				<!--</a> <a href="/login" th:href="@{/login}" sec:authorize="isAnonymous()" class="flex-c-m trans-04 p-lr-25"> S'enregistrer </a>-->
-				<a href="/login" th:href="@{/login}" sec:authorize="isAnonymous()" class="flex-c-m trans-04 p-lr-25"> Connection &amp; Créer compte</a>
+				<a href="/login" th:href="@{/login}" sec:authorize="isAnonymous()" class="flex-c-m trans-04 p-lr-25">Mon compte</a>
 				<!--<a href="#" class="flex-c-m trans-04 p-lr-25"> EN </a>
 				<a href="#" class="flex-c-m trans-04 p-lr-25"> USD </a>-->
 			</div>
@@ -46,7 +46,7 @@
 
 					<li th:class="(${#httpServletRequest.requestURI} == '/contact' ? 'active-menu' : '')"><a href="/contact" th:href="@{/contact}">Contact</a></li>
 
-					<li th:class="(${#httpServletRequest.requestURI} == '/monProfile' ? 'active-menu' : '')"><a href="/monProfile" sec:authorize="isAuthenticated()" th:href="@{/monProfile}">Mon Compte</a></li>
+					<li th:class="(${#httpServletRequest.requestURI} == '/monProfile' ? 'active-menu' : '')"><a href="/myProfile" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">Mon Compte</a></li>
 				</ul>
 				<!--<ul class="main-menu">
 					<li><a class="btn btn-danger btn-sm" sec:authorize="isAuthenticated()" th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span>Log out</a></li>

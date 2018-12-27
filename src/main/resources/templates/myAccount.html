@@ -38,7 +38,7 @@
 									<form th:action="@{/newUser}" method="post" style="display: inline">
 										<div class="form-group">
 											<label for="newUsername">* Non d'utilisateur: </label>
-											<span style="color: red;" th:if="${usernameExists}">Ce nom d'utilisateur existe déjà. Choisissez un autre.</span>
+											<span class="alert alert-danger" th:if="${usernameExists}">Ce nom d'utilisateur existe déjà. Choisissez un autre.</span>
 											<input required="required" type="text" class="form-control" id="newUsername" name="username" />
 											<p style="color: #828282">Entrez votre nom d'utilisateur ici.</p>
 										</div>

@@ -28,13 +28,13 @@ public class Utilisateur implements UserDetails {
     private String phone;
     private boolean enabled = true;
     //
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     //@Column(nullable=false, updatable=false)
     private Date dateDeCreation;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date dateDeModification;
@@ -57,6 +57,16 @@ public class Utilisateur implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<UserLivraison> userShippingList;
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<UserPaiement> userPaymentList;
+
+    public Utilisateur() {
+    }
 
     public Long getId() {
         return id;
@@ -120,6 +130,22 @@ public class Utilisateur implements UserDetails {
 
     public void setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    public List<UserLivraison> getUserShippingList() {
+        return userShippingList;
+    }
+
+    public void setUserShippingList(List<UserLivraison> userShippingList) {
+        this.userShippingList = userShippingList;
+    }
+
+    public List<UserPaiement> getUserPaymentList() {
+        return userPaymentList;
+    }
+
+    public void setUserPaymentList(List<UserPaiement> userPaymentList) {
+        this.userPaymentList = userPaymentList;
     }
 
     @Override

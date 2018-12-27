@@ -29,12 +29,12 @@
                 <form action="/admincafe/utilisateur/enregistrer" th:action="@{/admincafe/utilisateur/enregistrer}" th:object="${utilisateur}" method="post" >
 
                     <div class="form-group">
-                        <label for="nom" class="control-label col-sm-2">Nom*</label> <input class="form-control" type="text" th:field="*{nom}" placeholder="Entrer nom"/>
-                        <div style="width:33%" id="nom" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="alert alert-danger">Erreur sur le nom</div>
+                        <label for="nom" class="control-label col-sm-2">Nom*</label> <input class="form-control" type="text" th:field="*{lastName}" placeholder="Entrer nom"/>
+                        <div style="width:33%" id="nom" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger">Erreur sur le nom</div>
                     </div>
                     <div class="form-group">
-                        <label for="prenom" class="control-label col-sm-2">Prénom*</label> <input class="form-control" type="text" th:field="*{prenom}" />
-                        <div style="width:33%" id="prenom" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" class="alert alert-danger">Erreur sur le prénom</div>
+                        <label for="prenom" class="control-label col-sm-2">Prénom*</label> <input class="form-control" type="text" th:field="*{firstName}" />
+                        <div style="width:33%" id="prenom" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger">Erreur sur le prénom</div>
                     </div>
                     <div class="form-group" >
                         <label for="email" class="control-label col-sm-2">Email*</label> <input class="form-control" type="email" th:field="*{email}"  placeholder="Entrer l'email"/>
@@ -50,8 +50,8 @@
                         <div style="width:33%" id="passwordConfirm" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="alert alert-danger">Mot de passe confirmatin incorrect</div>
                     </div>
                     <div class="form-group">
-                        <label for="telephone" class="control-label col-sm-2">N° de téléphone*</label> <input class="form-control" type="text" th:field="*{telephone}" />
-                        <div style="width:33%" id="telephone" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="alert alert-danger">N° incorrect</div>
+                        <label for="phone" class="control-label col-sm-2">N° de téléphone*</label> <input class="form-control" type="text" th:field="*{phone}" />
+                        <div style="width:33%" id="phone" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="alert alert-danger">N° incorrect</div>
                     </div>
                     <div class="form-group">
                         <label for="image" class="control-label col-sm-2">Avatar*</label> <input class="form-control" type="file" th:field="*{image}" />

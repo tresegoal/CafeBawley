@@ -32,7 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/produit",
             "/livraison",
             "/panier",
-            "/contact",
+            "/contact/**",
+            "/facebook/**",
+            "/google/**",
             "/connect/**"
     };
     @Autowired

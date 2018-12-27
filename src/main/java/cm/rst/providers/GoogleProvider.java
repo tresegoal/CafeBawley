@@ -32,8 +32,10 @@ public class GoogleProvider {
         //Login the User
         baseProvider.autoLoginUser(userForm);
 
-        model.addAttribute("loggedInUser", userForm);
-        return "secure/user";
+        /*model.addAttribute("loggedInUser", userForm);
+        return "secure/user"; */
+        model.addAttribute("user", userForm);
+        return "myProfile";
     }
 
 
