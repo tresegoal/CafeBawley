@@ -84,8 +84,9 @@
 											Apply coupon
 										</div>
 									</div>
-
-									<input type="submit" value="Mettre a jour le panier" style="color: black" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" />
+									<th:block th:if="${session.panier}">
+										<input type="submit" value="Mettre a jour le panier" style="color: black" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10" />
+									</th:block>
 								</div>
 							</div>
 						</div>
