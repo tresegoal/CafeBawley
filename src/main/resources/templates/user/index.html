@@ -46,22 +46,23 @@
                             </thead>
                             <tbody>
                             <tr class="gradeA odd" th:each="utils:${utilisateurs}">
+                                <td class="sorting1" th:text="${utils.id}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font>#</td>
                                 <td class="sorting1" th:if="${utils.image}"><img th:src="@{utils.image}" width="50px" height="40px"/><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
-                                <td th:text="${utils.nom}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
-                                <td th:text="${utils.prenom}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                                <td th:text="${utils.lastName}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                                <td th:text="${utils.firstName}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
                                 <td th:text="${utils.email}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
-                                <td th:text="${utils.telephone}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                                <td th:text="${utils.phone}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
                                 <!--<td th:text="${utils.status}" class=" "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>-->
-                                <td th:if="${utils.active == false}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font><span class="badge badge-danger" style="background-color: #d9534f;">Suspendu</span></td>
-                                <td th:if="${utils.active == true}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font><span class="badge badge-success" style="background-color:cyan;">Activé</span></td>
+                                <td th:if="${utils.enabled == false}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font><span class="badge badge-danger" style="background-color: #d9534f;">Suspendu</span></td>
+                                <td th:if="${utils.enabled == true}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font><span class="badge badge-success" style="background-color:cyan;">Activé</span></td>
                                 <td th:text="${#dates.format(utils.dateDeCreation, 'dd-MMM-yyyy HH:mm')}" class="center "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
                                 <td th:text="${#dates.format(utils.dateDeModification, 'dd-MMM-yyyy HH:mm')}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
                                 <td class="">
                                     <!--<a class="btn btn-info btn-xs" th:href="@{'/admincafe/utilisateur/detail/' +${utils.id}}"><span class="fa fa-eye">Détails</span></a>-->
                                     <a class="btn btn-info btn-xs" th:href="@{'/admincafe/utilisateur/edit/' +${utils.id}}"><span class="glyphicon glyphicon-edit">Modifier</span></a>
                                     <a href="#" role="button" class="btn btn-danger btn-xs" data-toggle="modal" th:attr="data-target=${'#supprimer'+ utils.id}"  data-placement="top" title="desactive" data-original-title="desactive"><i class="fa fa-trash-o">Supprimer</i></a>
-                                    <div th:if="${utils.active == true}"><a href="#" role="button" class="btn btn-danger btn-xs" data-toggle="modal" th:attr="data-target=${'#desactive'+ utils.id}"  data-placement="top" title="desactive" data-original-title="desactive"><i class="fa fa-close">Desactiver</i></a></div>
-                                    <div th:if="${utils.active == false}"><a  href="#" role="button" class="btn btn-success btn-xs" data-toggle="modal" th:attr="data-target=${'#active'+ utils.id}" data-placement="top" title="active" data-original-title="active"><i class="fa fa-check">Activer</i></a></div>
+                                    <div th:if="${utils.enabled == true}"><a href="#" role="button" class="btn btn-danger btn-xs" data-toggle="modal" th:attr="data-target=${'#desactive'+ utils.id}"  data-placement="top" title="desactive" data-original-title="desactive"><i class="fa fa-close">Desactiver</i></a></div>
+                                    <div th:if="${utils.enabled == false}"><a  href="#" role="button" class="btn btn-success btn-xs" data-toggle="modal" th:attr="data-target=${'#active'+ utils.id}" data-placement="top" title="active" data-original-title="active"><i class="fa fa-check">Activer</i></a></div>
                                 </td>
                             </tr>
                             </tbody>
@@ -83,10 +84,10 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></button>
-                        <h3 class="modal-title" id="exampleModalLabel"><i>Desactiver l'utilisateur:</i> <b th:text="${utils.nom}" style="color:#ff0000"></b></h3>
+                        <h3 class="modal-title" id="exampleModalLabel"><i>Desactiver l'utilisateur:</i> <b th:text="${utils.username}" style="color:#ff0000"></b></h3>
                     </div>
                     <div class="modal-body">
-                        Voulez vous vraiment desactiver l'utilisateur ? <b th:text="${utils.nom}" style="color:#ff0000"></b>
+                        Voulez vous vraiment desactiver l'utilisateur ? <b th:text="${utils.username}" style="color:#ff0000"></b>
                     </div>
                     <div class="modal-footer" style="border-top: none">
                         <form action="" th:action="@{/admincafe/utilisateur/desactiveUser/{id}(id=${utils.id})}" method="post">
@@ -106,10 +107,10 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></button>
-                        <h3 class="modal-title" id="exampleModal"><i>Activer l'utilisateur:</i> <b th:text="${utils.nom}" style="color:#ff0000"></b></h3>
+                        <h3 class="modal-title" id="exampleModal"><i>Activer l'utilisateur:</i> <b th:text="${utils.username}" style="color:#ff0000"></b></h3>
                     </div>
                     <div class="modal-body">
-                        Voulez vous vraiment activer l'utilisateur ? <b th:text="${utils.nom}" style="color:#ff0000"></b>
+                        Voulez vous vraiment activer l'utilisateur ? <b th:text="${utils.username}" style="color:#ff0000"></b>
                     </div>
                     <div class="modal-footer" style="border-top: none">
                         <form  action="" th:action="@{/admincafe/utilisateur/activeUser/{id}(id=${utils.id})}" method="post">
@@ -128,10 +129,10 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></button>
-                        <h3 class="modal-title" id="exampleModalLab"><i>Activer l'utilisateur:</i> <b th:text="${utils.nom}" style="color:#ff0000"></b></h3>
+                        <h3 class="modal-title" id="exampleModalLab"><i>Activer l'utilisateur:</i> <b th:text="${utils.username}" style="color:#ff0000"></b></h3>
                     </div>
                     <div class="modal-body">
-                        Voulez vous vraiment supprimer l'utilisateur ?<b th:text="${utils.email}" style="color:#ff0000">?</b>
+                        Voulez vous vraiment supprimer l'utilisateur ?<b th:text="${utils.username}" style="color:#ff0000">?</b>
                     </div>
                     <div class="modal-footer" style="border-top: none">
                         <form  action="" th:action="@{/admincafe/utilisateur/supprimer/{id}(id=${utils.id})}" method="post">

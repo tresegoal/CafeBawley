@@ -32,8 +32,10 @@ public class GoogleProvider {
         //Login the User
         baseProvider.autoLoginUser(userForm);
 
-        model.addAttribute("loggedInUser", userForm);
-        return "secure/user";
+        /*model.addAttribute("loggedInUser", userForm);
+        return "secure/user"; */
+        model.addAttribute("user", userForm);
+        return "myProfile";
     }
 
 
@@ -41,8 +43,8 @@ public class GoogleProvider {
         Google google = baseProvider.getGoogle();
         Person googleUser = google.plusOperations().getGoogleProfile();
         userform.setEmail(googleUser.getAccountEmail());
-        userform.setPrenom(googleUser.getGivenName());
-        userform.setNom(googleUser.getFamilyName());
+        userform.setFirstName(googleUser.getGivenName());
+        userform.setLastName(googleUser.getFamilyName());
         userform.setImage(googleUser.getImageUrl());
         userform.setProvider(GOOGLE);
     }

@@ -1,3 +1,4 @@
+/*
 package cm.rst.mobileController;
 
 import cm.rst.entities.Commande;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * @author Fabrice
- */
+ *//*
+
 @RestController
 @RequestMapping("/api")
 public class MobileController {
@@ -37,13 +40,16 @@ public class MobileController {
         return clientCommands;
     }
 
-    /*@RequestMapping(value = "/commandes")
+    */
+/*@RequestMapping(value = "/commandes")
     public List<Commande> Index(Model model) {
         return (List<Commande>)commandeService.listerCommande();
-    }*/
+    }*//*
+
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public Commande Show(@PathVariable("id") long id, Model model) {
         return commandeService.voirCommande(id);
     }
 }
+*/

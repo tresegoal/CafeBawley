@@ -38,8 +38,8 @@ public class FacebookProvider {
         Facebook facebook = baseProvider.getFacebook();
         User user = facebook.userOperations().getUserProfile();
         userForm.setEmail(user.getEmail());
-        userForm.setPrenom(user.getFirstName());
-        userForm.setNom(user.getLastName());
+        userForm.setFirstName(user.getFirstName());
+        userForm.setLastName(user.getLastName());
         userForm.setImage(user.getCover().getSource());
         userForm.setProvider(FACEBOOK);
     }

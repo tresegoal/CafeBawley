@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="UTF-8" />
 	<title>Top Bar et Menu</title>
@@ -14,11 +14,11 @@
 			<div class="left-top-bar">Livraison gratuite pour une commande standard de plus de 100 $</div>
 
 			<div class="right-top-bar flex-w h-full">
-				<a href="#" class="flex-c-m trans-04 p-lr-25"> Aide &amp; FAQs
-				</a> <a href="/registration" th:href="@{/registration}" class="flex-c-m trans-04 p-lr-25"> S'enregistrer </a>
-				<a href="/login" th:href="@{/login}" class="flex-c-m trans-04 p-lr-25"> Se Connecter </a><a
-					href="#" class="flex-c-m trans-04 p-lr-25"> EN </a> <a href="#"
-																		   class="flex-c-m trans-04 p-lr-25"> USD </a>
+				<a href="#" class="flex-c-m trans-04 p-lr-25"> Aide &amp; FAQs</a>
+				<!--</a> <a href="/login" th:href="@{/login}" sec:authorize="isAnonymous()" class="flex-c-m trans-04 p-lr-25"> S'enregistrer </a>-->
+				<a href="/login" th:href="@{/login}" sec:authorize="isAnonymous()" class="flex-c-m trans-04 p-lr-25">Mon compte</a>
+				<!--<a href="#" class="flex-c-m trans-04 p-lr-25"> EN </a>
+				<a href="#" class="flex-c-m trans-04 p-lr-25"> USD </a>-->
 			</div>
 		</div>
 	</div>
@@ -45,7 +45,12 @@
 					<li th:class="(${#httpServletRequest.requestURI} == '/panier' ? 'active-menu' : '')"><a href="/panier" th:href="@{/panier}">Panier</a></li>
 
 					<li th:class="(${#httpServletRequest.requestURI} == '/contact' ? 'active-menu' : '')"><a href="/contact" th:href="@{/contact}">Contact</a></li>
+
+					<li th:class="(${#httpServletRequest.requestURI} == '/monProfile' ? 'active-menu' : '')"><a href="/myProfile" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">Mon Compte</a></li>
 				</ul>
+				<!--<ul class="main-menu">
+					<li><a class="btn btn-danger btn-sm" sec:authorize="isAuthenticated()" th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span>Log out</a></li>
+				</ul>-->
 			</div>
 
 			<!-- Icon header -->
@@ -64,6 +69,13 @@
 				   class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
 				   data-notify="0"> <i class="zmdi zmdi-favorite-outline"></i>
 				</a>
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<div sec:authorize="isAuthenticated()">
+				<form action="/logout" th:action="@{/logout}" method="post">
+					<button type="submit"  class="btn btn-danger btn-sm">
+						<span class="glyphicon glyphicon-log-out"></span>Log out</button>
+				</form>
 			</div>
 		</nav>
 	</div>

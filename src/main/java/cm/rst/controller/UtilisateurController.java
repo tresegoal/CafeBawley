@@ -27,7 +27,7 @@ public class UtilisateurController {
     @Autowired
     private ICrudService<Utilisateur, Long> utilisateurService;
 
-    @RequestMapping(value = {"","/"})
+    @RequestMapping(value = {"", "/"})
     public String getAllUser(Model model) {
         List<Utilisateur> utilisateurs = utilisateurService.getAll();
 
@@ -59,7 +59,7 @@ public class UtilisateurController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable("id") long id, Model model) {
         Utilisateur user = utilisateurService.findE(id);
-        model.addAttribute("utilisateur",user);
+        model.addAttribute("utilisateur", user);
         return "user/edit";
     }
 
@@ -70,7 +70,7 @@ public class UtilisateurController {
             return "user/edit";
         } else {
             utilisateurService.update(user);
-            redirAttrs.addFlashAttribute("message update", "l'utilisateur " +user.getNom()+ " a ete modifie avec success" );
+            redirAttrs.addFlashAttribute("message update", "l'utilisateur " + user.getFirstName() + " a ete modifie avec success");
             return "redirect:/admincafe/utilisateur";
         }
     }
@@ -79,32 +79,32 @@ public class UtilisateurController {
     public String Destroy(@PathVariable("id") long id, RedirectAttributes redirAttrs) {
         Utilisateur user = utilisateurService.findE(id);
         utilisateurService.delete(id);
-        redirAttrs.addFlashAttribute("Suppression", "l'utilisateur " +user.getEmail() + " a ete supprime avec success" );
+        redirAttrs.addFlashAttribute("Suppression", "l'utilisateur " + user.getEmail() + " a ete supprime avec success");
         return "redirect:/admincafe/utilisateur";
     }
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String Show(@PathVariable("id") long id, Model model) {
         Utilisateur user = utilisateurService.findE(id);
-        model.addAttribute("produit",user);
+        model.addAttribute("produit", user);
         return "user/details";
     }
 
     @RequestMapping(value = "/activeUser/{id}", method = RequestMethod.POST)
-    public String Active(@PathVariable("id") long id, Model model,RedirectAttributes redirAttrs) {
+    public String Active(@PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
         Utilisateur user = utilisateurService.findE(id);
-        user.setActive(true);
+        user.setEnabled(true);
         utilisateurService.update(user);
-        redirAttrs.addFlashAttribute("Activation", "l'utilisateur " +user.getNom()+ " a ete activee avec success" );
+        redirAttrs.addFlashAttribute("Activation", "l'utilisateur " + user.getFirstName() + " a ete activee avec success");
         return "redirect:/admincafe/utilisateur";
     }
 
     @RequestMapping(value = "/desactiveUser/{id}", method = RequestMethod.POST)
     public String Desactive(@PathVariable("id") long id, Model model, RedirectAttributes redirAttrs) {
         Utilisateur user = utilisateurService.findE(id);
-        user.setActive(false);
+        user.setEnabled(false);
         utilisateurService.update(user);
-        redirAttrs.addFlashAttribute("Désactivation", "l'utilisateur " +user.getNom()+ " a ete desactivee avec success" );
+        redirAttrs.addFlashAttribute("Désactivation", "l'utilisateur " + user.getFirstName() + " a ete desactivee avec success");
         return "redirect:/admincafe/utilisateur";
     }
 

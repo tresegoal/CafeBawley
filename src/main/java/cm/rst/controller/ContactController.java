@@ -27,10 +27,13 @@ public class ContactController {
     }
 
     @RequestMapping("/send")
-    public String envoieSimpleMail(Contact contact) throws MessagingException {
+    public String envoieSimpleMail(Contact contact, Model model) throws MessagingException {
 
         mailClient.sendHtmlEmail("rstngmb@gmail.com", contact.getSubject());
         contactRepository.save(contact);
+
+        model.addAttribute("contactEmailSent", "true");
+
         return "/contact";
     }
 

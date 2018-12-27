@@ -81,10 +81,10 @@
                             <label class="col-sm-2 col-lg-2 control-label" for="email">Email :</label><span th:text="*{email}" />
                         </div>
                         <div class="row">
-                            <label for="nom" class="col-sm-2 col-lg-2 control-label">Nom :</label><span th:text="*{nom}" />
+                            <label for="nom" class="col-sm-2 col-lg-2 control-label">Nom :</label><span th:text="*{lastName}" />
                         </div>
                         <div class="row">
-                            <label for="prenom" class="col-sm-2 col-lg-2 control-label">Prenom:</label><span th:text="*{prenom}" />
+                            <label for="prenom" class="col-sm-2 col-lg-2 control-label">Prenom:</label><span th:text="*{firstName}" />
                         </div>
                         <div class="row">
                             <label for="image" class="col-sm-2 col-lg-2 control-label">Image:</label><img th:attr="src=@{*{image}}" class="img-responsive" style="width: 150px; height: 150px;"/>

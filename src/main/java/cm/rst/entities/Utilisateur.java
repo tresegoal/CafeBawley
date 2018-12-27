@@ -1,137 +1,71 @@
 package cm.rst.entities;
 
+import cm.rst.security.Authority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-/**
- * @author Fabrice
- * Entité utilisateur (admin, publisher, client etc.)
- * en fonction du role qui lui sera attribué
- */
 @Entity
-public class Utilisateur implements Serializable {
+public class Utilisateur implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
-    /**
-     * Nom de l'utilisateur
-     */
-   // @NotBlank(message = "Le nom ne peut pas être vide")
-   // @Size(min = 3, max = 30, message = "Le nom doit comporté au moins 3 caractères")
-    private String nom;
-    /**
-     * Prenom de l'utilisateur
-     */
-   // @Size(min = 3, max = 30, message = "Le nom doit comporté au moins 3 caractères")
-    private String prenom;
-    /**
-     * Mot de passe de l'utilisateur
-     */
-    //@NotBlank(message = "Le mot de passe ne peut pas être vide")
-    //@NotNull(message = "Le mot de passe est obligatoire")
+    private String username;
     private String password;
+    private String firstName;
+    private String lastName;
 
-    @Transient
-    private String passwordConfirm;
-
-    /**
-     * Email de l'utilisateur
-     */
-    //@NotNull(message = "L'email ne peut pas être vide")
-    @Email(message = "Le format de l'email est invalide")
-    //@NotBlank(message = "Le champ email ne peut pas être vide")
-    @Size(min = 3, max = 30)
-    @Column(unique = true)
+    @Column(name = "email", nullable = false, updatable = false)
     private String email;
-    /**
-     * Numéro de téléphone de l'utilisateur
-     */
-    //@Column(unique=true)
-    private String telephone;
-    /**
-     * Date de création de l'utilisateur.
-     * Elle correspondra à la date courante au
-     * moment de la création de l'utilisateur
-     */
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private String phone;
+    private boolean enabled = true;
+    //
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     //@Column(nullable=false, updatable=false)
     private Date dateDeCreation;
-    /**
-     * Date de modification de l'utilisateur.
-     * Elle sera mis à jour à chaque modification
-     * d'une information sur l'utilisateur
-     */
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date dateDeModification;
-    /**
-     * Correspond à l'action ou pas de l'utilsateur
-     */
-    private boolean active = false;
 
     private String provider;
     private String image;
 
-    /**
-     * Liste des adresses de l'utilsateur.
-     * Chaque adresse doit être unique.
-     * A la suppression de l'utilisateur, toutes ses adresses doivent
-     * également êtres supprimées
-     */
+    @Transient
+    private String passwordConfirm;
+
     @OneToMany(mappedBy = "user")
     private List<Adresse> adresses = new ArrayList<>();
-
-    /**
-     * La liste des rôles de l'utilisateur.
-     * Chaque rôle qui lui est attribué doit être unique
-     * A la suppression de l'utilisateur, ses rôles doivent êtres supprimés également.
-     */
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "utilisateur")
     private List<Commande> commandes = new ArrayList<>();
 
     @OneToMany(mappedBy = "utilisateur")
     private List<Favoris> favoris = new ArrayList<>();
+    //
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<UserRole> userRoles = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<UserLivraison> userShippingList;
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<UserPaiement> userPaymentList;
 
     public Utilisateur() {
-    }
-
-    public Utilisateur(String nom, String prenom, String password, String email, String telephone) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.password = password;
-        this.email = email;
-        this.telephone = telephone;
-    }
-
-    public Utilisateur(String nom, String prenom, String password, String email) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.password = password;
-        this.email = email;
-    }
-
-    public Utilisateur(String nom, String email, String password) {
-        this.nom = nom;
-        this.password = password;
-        this.email = email;
     }
 
     public Long getId() {
@@ -142,20 +76,12 @@ public class Utilisateur implements Serializable {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -166,12 +92,20 @@ public class Utilisateur implements Serializable {
         this.password = password;
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -182,12 +116,71 @@ public class Utilisateur implements Serializable {
         this.email = email;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public List<UserLivraison> getUserShippingList() {
+        return userShippingList;
+    }
+
+    public void setUserShippingList(List<UserLivraison> userShippingList) {
+        this.userShippingList = userShippingList;
+    }
+
+    public List<UserPaiement> getUserPaymentList() {
+        return userPaymentList;
+    }
+
+    public void setUserPaymentList(List<UserPaiement> userPaymentList) {
+        this.userPaymentList = userPaymentList;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorites = new HashSet<>();
+        userRoles.forEach(ur -> authorites.add(new Authority(ur.getRole().getName())));
+
+        return authorites;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Date getDateDeCreation() {
@@ -204,14 +197,6 @@ public class Utilisateur implements Serializable {
 
     public void setDateDeModification(Date dateDeModification) {
         this.dateDeModification = dateDeModification;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public String getProvider() {
@@ -238,14 +223,6 @@ public class Utilisateur implements Serializable {
         this.adresses = adresses;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
-
     public List<Commande> getCommandes() {
         return commandes;
     }
@@ -260,5 +237,13 @@ public class Utilisateur implements Serializable {
 
     public void setFavoris(List<Favoris> favoris) {
         this.favoris = favoris;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 }

@@ -24,15 +24,15 @@
             </div>
             <div class="panel-body">
                 <form action="#" th:action="@{/admincafe/utilisateur/modifierUser/{id}(id=${utilisateur.id})}" th:object="${utilisateur}" method="POST" class="form-group">
-                    <div class="form-group" th:class="${#fields.hasErrors('nom')} ? has-error">
+                    <div class="form-group" th:class="${#fields.hasErrors('lastName')} ? has-error">
                         <label  for="nom">Nom</label>
-                        <input type="text" th:field="*{nom}" class="form-control" id="nom" value="$('utilisateur.nom)" />
-                        <span th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" th:errorclass="fieldError">Erreur sur le nom</span>
+                        <input type="text" th:field="*{lastName}" class="form-control" id="nom" value="$('utilisateur.lastName)" />
+                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="fieldError">Erreur sur le nom</span>
                     </div>
-                    <div class="form-group" th:class="${#fields.hasErrors('prenom')} ? has-error">
+                    <div class="form-group" th:class="${#fields.hasErrors('firstName')} ? has-error">
                         <label  for="prenom">Prenom</label>
-                        <input type="text" th:field="*{prenom}" class="form-control" id="prenom" value="$('utilisateur.prenom)"></input>
-                        <span th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" th:errorclass="fieldError">Erreur sur le prenom</span>
+                        <input type="text" th:field="*{firstName}" class="form-control" id="prenom" value="$('utilisateur.firstName)"></input>
+                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="fieldError">Erreur sur le prenom</span>
                     </div>
                     <div class="form-group" th:class="${#fields.hasErrors('email')} ? has-error">
                         <label  for="email">Email</label>
@@ -50,9 +50,9 @@
                         <span th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" th:errorclass="fieldError">Erreur de confirmation</span>
                     </div>
                     <div class="form-group" th:class="${#fields.hasErrors('password')} ? has-error">
-                        <label  for="telephone">N° de téléphone</label>
-                        <input type="number" th:field="*{telephone}" class="form-control" id="telephone" value="$('utilisateur.telephone)" />
-                        <span th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" th:errorclass="fieldError">Numéro incorrect</span>
+                        <label  for="phone">N° de téléphone</label>
+                        <input type="number" th:field="*{phone}" class="form-control" id="phone" value="$('utilisateur.phone)" />
+                        <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" th:errorclass="fieldError">Numéro incorrect</span>
                     </div>
                     <div class="form-group" th:class="${#fields.hasErrors('image')} ? has-error">
                         <label  for="image">Avatar</label>

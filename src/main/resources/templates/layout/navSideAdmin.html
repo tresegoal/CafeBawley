@@ -60,13 +60,13 @@
                 </li>
                
                 <li>
-                    <a th:class="(${#httpServletRequest.requestURI} == '#' ? 'active-menu' : '')" href="#"><i class="fa fa-sitemap "></i>Gestion des utilisateurs <span class="fa arrow"></span></a>
+                    <a th:class="(${#httpServletRequest.requestURI} == '/admincafe/utilisateur' ? 'active-menu' : '')" href="/admincafe/utilisateur" th:href="@{/admincafe/utilisateur}"><i class="fa fa-sitemap "></i>Gestion des utilisateurs <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a th:class="(${#httpServletRequest.requestURI} == '#' ? 'active-menu' : '')" href="#"><i class="fa fa-bicycle "></i>Liste des utilisateurs</a>
+                            <a th:class="(${#httpServletRequest.requestURI} == '/admincafe/utilisateur' ? 'active-menu' : '')" href="/admincafe/utilisateur"  th:href="@{/admincafe/utilisateur}"><i class="fa fa-bicycle "></i>Liste des utilisateurs</a>
                         </li>
                         <li>
-                            <a th:class="(${#httpServletRequest.requestURI} == '#' ? 'active-menu' : '')" href="#"><i class="fa fa-flask "></i>gestion des roles</a>
+                            <a th:class="(${#httpServletRequest.requestURI} == '/role' ? 'active-menu' : '')" href="/role" th:href="@{/role}"><i class="fa fa-flask "></i>gestion des roles</a>
                         </li>
                     </ul>
                 </li>

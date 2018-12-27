@@ -54,10 +54,10 @@ public class LoginController {
         return googleProvider.getGoogleUserData(model, new Utilisateur());
     }
 
-    @RequestMapping(value = "/login")
+    /*@RequestMapping(value = "/login")
     public String login() {
         return "login";
-    }
+    }*/
 
     @GetMapping("/registration")
     public String showRegistration(Model model, Utilisateur registerForm) {
@@ -103,9 +103,10 @@ public class LoginController {
 
         if (utilisateur != null) {
             model.addAttribute("loggedInUser", userBean);
-            return "secure/user";
+//            return "secure/user";
+            return "myProfile";
         }
-        ;
+
 
         if (!userBean.getPassword().equals(userBean.getPasswordConfirm()))
             throw new RuntimeException("Vous devez confirmer votre mot de passe");
@@ -124,7 +125,8 @@ public class LoginController {
         autologin.setSecuritycontext(userBean);
 
         model.addAttribute("loggedInUser", userBean);
-        return "secure/user";
+//        return "secure/user";
+        return "myProfile";
     }
 
     @RequestMapping(value = "/connecte", method = RequestMethod.POST)
@@ -135,7 +137,8 @@ public class LoginController {
         if (user == null) throw new RuntimeException("L'utilisateur n'existe pas");
 
         model.addAttribute("loggedInUser", userBean);
-        return "secure/user";
+//        return "secure/user";
+        return "myProfile";
     }
 
     /**
