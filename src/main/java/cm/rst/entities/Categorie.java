@@ -119,6 +119,16 @@ public class Categorie implements Serializable{
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Categorie{" +
+                "id=" + id +
+                ", designation='" + designation + '\'' +
+                ", Produits=" + Produits +
+                ", active=" + active +
+                ", dateCreation=" + dateCreation +
+                ", dateModification=" + dateModification +
+                '}';
+    }
 }

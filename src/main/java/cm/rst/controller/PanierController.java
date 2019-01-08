@@ -134,8 +134,8 @@ public class PanierController {
 
     @RequestMapping(value = "/validation")
     public String Validation(HttpSession session,Model model) {
-        if(session.getAttribute("email") == null) {
-            return "redirect:/login";
+        if(session.getAttribute("username") == null) {
+            return "redirect:/livraison";
         }else {
             return "commande/index";
         }
