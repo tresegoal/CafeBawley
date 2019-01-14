@@ -246,4 +246,29 @@ public class Utilisateur implements UserDetails {
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
     }
+
+    @Override
+    public String toString() {
+        return "Utilisateur{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", enabled=" + enabled +
+                ", dateDeCreation=" + dateDeCreation +
+                ", dateDeModification=" + dateDeModification +
+                ", provider='" + provider + '\'' +
+                ", image='" + image + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", adresses=" + adresses +
+                ", commandes=" + commandes +
+                ", favoris=" + favoris +
+                ", userRoles=" + userRoles +
+                ", userShippingList=" + userShippingList +
+                ", userPaymentList=" + userPaymentList +
+                '}';
+    }
 }

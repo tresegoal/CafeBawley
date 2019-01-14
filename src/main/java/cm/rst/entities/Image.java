@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,6 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Martins
  */
 @Entity
+@JsonIgnoreProperties({"produit","id","dateCreation","dateModification"})
 public class Image implements Serializable{
     /*@Id
     @GeneratedValue(generator = "uuid")
@@ -31,19 +34,19 @@ public class Image implements Serializable{
 
     private String filename;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    /*@DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)*/
     private Date dateCreation;
-
+/*
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column( nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    @UpdateTimestamp
+    @UpdateTimestamp*/
     private Date dateModification;
-    
+
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "produit_id")
     @NotNull

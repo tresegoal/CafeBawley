@@ -15,7 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotBlank;
@@ -27,6 +31,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Martins
  */
 @Entity
+//@JsonIgnoreProperties({"produits"})
+@JsonIgnoreProperties({"dateCreation","dateModification"})
 public class Categorie implements Serializable{
     @Id @GeneratedValue
     private Long id;
@@ -34,8 +40,9 @@ public class Categorie implements Serializable{
     @NotBlank @Size(min = 3, max = 15) 
     @Column(name = "designation", length = 30, nullable = false, unique = true)
     private String designation;
-    
+
     @OneToMany(mappedBy = "categorie")
+    @JsonIgnore
     private List<Produit> Produits;
     
    // @Column(columnDefinition="tinyint(1) default 0")
@@ -52,15 +59,19 @@ public class Categorie implements Serializable{
     @UpdateTimestamp
     private Date dateModification;
 
+
+    private String image;
+
     public Categorie() {
         super();
     }
 
-    public Categorie(String designation,Date dateCreation, Date dateModification) {
+    public Categorie(String designation,Date dateCreation, Date dateModification, String image) {
         super();
         this.designation = designation;
         this.dateCreation = dateCreation;
         this.dateModification = dateModification;
+        this.image = image;
     }
 
     public Long getId() {
@@ -120,6 +131,14 @@ public class Categorie implements Serializable{
         this.active = active;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Categorie{" +
@@ -129,6 +148,7 @@ public class Categorie implements Serializable{
                 ", active=" + active +
                 ", dateCreation=" + dateCreation +
                 ", dateModification=" + dateModification +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

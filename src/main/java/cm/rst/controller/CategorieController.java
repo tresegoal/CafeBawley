@@ -11,13 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -27,6 +29,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/admincafe/categorie")
 public class  CategorieController {
+    private final Path rootLocation = Paths.get("src/main/resources/static/image");
     @Autowired
     private final ICategorieService ics;
 
@@ -49,15 +52,14 @@ public class  CategorieController {
     }
     
     @RequestMapping(value = "/saveCategorie", method = RequestMethod.POST)
-    public String Store(@ModelAttribute @Valid Categorie categorie,
-            BindingResult bindingResult,RedirectAttributes redirAttrs) {
+    public String Store(@ModelAttribute @Valid Categorie categorie,@RequestParam("image") MultipartFile file,
+            BindingResult bindingResult,RedirectAttributes redirAttrs) throws IOException {
+        String filenam = file.getOriginalFilename();
        if (bindingResult.hasErrors()) {
-        /*log("errors =" + bindingResult.getAllErrors());
-            ModelAndView mav = new ModelAndView();
-             mav.getModel().putAll(bindingResult.getModel());
-            return mav;*/
            return "redirect:/admincafe/categorie/addCategorie";
        } else {
+           Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+           categorie.setImage(filenam);
            ics.creerCategorie(categorie);
             redirAttrs.addFlashAttribute("messagecreate", "la categorie " +categorie.getDesignation()+ " a ete cree avec success" );
            return "redirect:/admincafe/categorie";
@@ -79,12 +81,15 @@ public class  CategorieController {
     }
     
     @RequestMapping(value = "/updateCategorie/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute @Valid Categorie c,
-            BindingResult bindingResult,RedirectAttributes redirAttrs) {
+    public String update(@ModelAttribute @Valid Categorie c,@RequestParam("image") MultipartFile filename,
+            BindingResult bindingResult,RedirectAttributes redirAttrs) throws IOException {
+        String filenam = filename.getOriginalFilename();
        if (bindingResult.hasErrors()) {
         //log("errors =" + bindingResult.getAllErrors());
            return "Categorie/edit";
        } else {
+           Files.copy(filename.getInputStream(), this.rootLocation.resolve(filename.getOriginalFilename()));
+           c.setImage(filenam);
            ics.modifierCategorie(c);
             redirAttrs.addFlashAttribute("messageupdate", "la categorie " +c.getDesignation()+ " a ete modifiee avec success" );
            return "redirect:/admincafe/categorie";

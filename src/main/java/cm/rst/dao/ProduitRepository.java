@@ -35,5 +35,7 @@ public interface ProduitRepository extends JpaRepository<Produit, Long>{
     @Query("select p from Produit p left join p.categorie c where p.categorie =?1 and p.active = 'true'")
     Page<Produit> findByCategorie(Pageable pageable, int catId);
 
+    @Query("select p from Produit p left join p.categorie c where p.promotion = 'true' and p.active = 'true' and c.active='true' order by p.dateModification desc")
+    List<Produit> findByPromotion();
 
 }

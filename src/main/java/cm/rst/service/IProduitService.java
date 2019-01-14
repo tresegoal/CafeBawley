@@ -17,7 +17,8 @@ import java.util.List;
  */
 public interface IProduitService {
     public Page<Produit> listerProduit(int pageNumber, int pageSize);
-    public List<Produit> listerProduit(); 
+    public List<Produit> listerProduit();
+    public List<Produit> listerProduitPromotion();
     public Produit voirProduit(Long id);
     public Produit creerProduit(Produit produit);
     public Produit modifierProduit(Produit produit);

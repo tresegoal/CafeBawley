@@ -90,6 +90,17 @@ public class ProduitRESTController {
         return new ResponseEntity<>(produits, headers, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/produitsPromotion",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Produit>> getAllPromotionProduits()
+            throws URISyntaxException {
+        log.debug("REST request to get a list of promotion Produits");
+        List<Produit> produits = produitService.listerProduitPromotion();
+        HttpHeaders headers = HeaderUtil.getListAlert("That is the Set of produits after /api/produits ", String.valueOf(produits.size()));
+        return new ResponseEntity<>(produits, headers, HttpStatus.OK);
+    }
+
     /**
      * GET  /produits/:id : get the "id" produit.
      *

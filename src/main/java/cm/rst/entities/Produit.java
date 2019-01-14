@@ -16,17 +16,22 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+
 /**
  *
  * @author Martins
  */
 @Entity
+@JsonIgnoreProperties({"produitCommandes","dateCreation","dateModification"})
 public class Produit implements Serializable{
     @Id @GeneratedValue
     private Long id;
@@ -42,17 +47,22 @@ public class Produit implements Serializable{
     private int tva;
     
     private boolean active= false;
-    
+
     @OneToMany(mappedBy = "produit")
+    //@JsonIgnoreProperties({"produitCommandes"})
     private List<ProduitCommande> ProduitCommandes;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne
     @JoinColumn(name = "categorie_id", nullable = false)
     @Valid
+    @JsonIgnore
     private Categorie categorie;
-    
+
     @OneToOne(mappedBy = "produit")
+    //@JsonIgnore
     private Image image;
+
+    private boolean promotion;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
@@ -66,13 +76,21 @@ public class Produit implements Serializable{
     @UpdateTimestamp
     private Date dateModification;
 
-    public Produit(String designation, String description, Double prixUnitHT, int quantite, int tva, Categorie categorie) {
+    public Produit(String designation, Date dateModification, Date dateCreation,
+                   boolean promotion, Image image, Categorie categorie, List<ProduitCommande> produitCommandes,
+                   boolean active, int tva, int quantite, Double prixUnitHT, String description) {
         this.designation = designation;
-        this.description = description;
-        this.prixUnitHT = prixUnitHT;
-        this.quantite = quantite;
-        this.tva = tva;
+        this.dateModification = dateModification;
+        this.dateCreation = dateCreation;
+        this.promotion = promotion;
+        this.image = image;
         this.categorie = categorie;
+        ProduitCommandes = produitCommandes;
+        this.active = active;
+        this.tva = tva;
+        this.quantite = quantite;
+        this.prixUnitHT = prixUnitHT;
+        this.description = description;
     }
 
     public Produit() {
@@ -173,6 +191,7 @@ public class Produit implements Serializable{
     public void setDateModification(Date dateModification) {
         this.dateModification = dateModification;
     }
-    
-    
+
+
+
 }

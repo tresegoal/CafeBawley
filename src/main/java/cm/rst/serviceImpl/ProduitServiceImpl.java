@@ -38,6 +38,11 @@ public class ProduitServiceImpl implements IProduitService{
     }
 
     @Override
+    public List<Produit> listerProduitPromotion() {
+        return produitRepository.findByPromotion();
+    }
+
+    @Override
     public Produit voirProduit(Long id) {
         return produitRepository.findOne(id);
     }

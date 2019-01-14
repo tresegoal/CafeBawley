@@ -23,11 +23,26 @@
                 <h3 class="panel-title"><strong>Modifier une categorie</strong></h3>
             </div>
             <div class="panel-body">
-                <form action="#" th:action="@{/admincafe/categorie/updateCategorie/{id}(id=${categorie.id})}" th:object="${categorie}" method="POST" class="form-group">
+                <form action="#" th:action="@{/admincafe/categorie/updateCategorie/{id}(id=${categorie.id})}" th:object="${categorie}" method="POST" class="form-group" enctype="multipart/form-data">
                     <div class="form-group" th:class="${#fields.hasErrors('designation')} ? has-error">
                         <label  for="designation">Designation</label>
                         <input type="text" th:field="*{designation}" value="${categorie.designation}" class="form-control" id="designation" />
                         <span th:if="${#fields.hasErrors('designation')}" th:errors="*{designation}" th:errorclass="fieldError">Erreur designation</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-lg-4">Importer une image</label>
+                        <div class="">
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <input type="hidden" value="" name="" />
+                                <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px; line-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-file btn-success">
+                                        <input type="file" name="image" th:value="@{/filestorage/+${image}}"/>
+                                    </span>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Retirer</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <br />
                     <input type="submit" class="btn btn-primary " value="Modifier" />

@@ -39,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/contact/**",
             "/facebook/**",
             "/google/**",
-            "/connect/**"
+            "/connect/**",
+            "/api/**"
     };
     @Autowired
     private Environment env;
