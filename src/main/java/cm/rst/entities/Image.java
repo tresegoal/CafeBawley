@@ -34,17 +34,18 @@ public class Image implements Serializable{
 
     private String filename;
 
-    /*@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private boolean active = false;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)*/
+    @Column(nullable = false, updatable = false)
     private Date dateCreation;
-/*
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column( nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    @UpdateTimestamp*/
+    @UpdateTimestamp
     private Date dateModification;
 
     @OneToOne(cascade = CascadeType.REMOVE)
@@ -98,6 +99,14 @@ public class Image implements Serializable{
 
     public void setProduit(Produit produit) {
         this.produit = produit;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
 

@@ -52,14 +52,13 @@ public class  CategorieController {
     }
     
     @RequestMapping(value = "/saveCategorie", method = RequestMethod.POST)
-    public String Store(@ModelAttribute @Valid Categorie categorie,@RequestParam("image") MultipartFile file,
+    public String Store(@ModelAttribute @Valid Categorie categorie,@RequestParam("fichier") MultipartFile filename,
             BindingResult bindingResult,RedirectAttributes redirAttrs) throws IOException {
-        String filenam = file.getOriginalFilename();
-       if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
            return "redirect:/admincafe/categorie/addCategorie";
        } else {
-           Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
-           categorie.setImage(filenam);
+           Files.copy(filename.getInputStream(), this.rootLocation.resolve(filename.getOriginalFilename()));
+           categorie.setImage(filename.getOriginalFilename());
            ics.creerCategorie(categorie);
             redirAttrs.addFlashAttribute("messagecreate", "la categorie " +categorie.getDesignation()+ " a ete cree avec success" );
            return "redirect:/admincafe/categorie";
@@ -81,15 +80,14 @@ public class  CategorieController {
     }
     
     @RequestMapping(value = "/updateCategorie/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute @Valid Categorie c,@RequestParam("image") MultipartFile filename,
+    public String update(@ModelAttribute @Valid Categorie c,@RequestParam("fichier") MultipartFile filename,
             BindingResult bindingResult,RedirectAttributes redirAttrs) throws IOException {
-        String filenam = filename.getOriginalFilename();
        if (bindingResult.hasErrors()) {
         //log("errors =" + bindingResult.getAllErrors());
            return "Categorie/edit";
        } else {
            Files.copy(filename.getInputStream(), this.rootLocation.resolve(filename.getOriginalFilename()));
-           c.setImage(filenam);
+           c.setImage(filename.getOriginalFilename());
            ics.modifierCategorie(c);
             redirAttrs.addFlashAttribute("messageupdate", "la categorie " +c.getDesignation()+ " a ete modifiee avec success" );
            return "redirect:/admincafe/categorie";

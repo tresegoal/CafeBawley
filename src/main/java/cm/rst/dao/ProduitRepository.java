@@ -32,8 +32,8 @@ public interface ProduitRepository extends JpaRepository<Produit, Long>{
     @Query("select p from Produit p left join p.categorie c where p.active = 'true' and  p.prixUnitHT between :prixDebut and :prixFin")
     Page<Produit> findByPrice(@Param("prixDebut") double prixDebut, @Param("prixFin") double prixFin,Pageable pageable);
 
-    @Query("select p from Produit p left join p.categorie c where p.categorie =?1 and p.active = 'true'")
-    Page<Produit> findByCategorie(Pageable pageable, int catId);
+    @Query("select p from Produit p left join p.categorie c where p.categorie.id =?1 and p.active = 'true'")
+    List<Produit> findByCategorie(Long catId);
 
     @Query("select p from Produit p left join p.categorie c where p.promotion = 'true' and p.active = 'true' and c.active='true' order by p.dateModification desc")
     List<Produit> findByPromotion();

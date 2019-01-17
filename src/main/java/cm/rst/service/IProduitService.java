@@ -26,7 +26,7 @@ public interface IProduitService {
     public void supprimerProduit(Produit produit);
     public Page<Produit> listeReduiteProduit();
     public List<Produit> listeProduitParMc(String key);
-    public Page<Produit> listeProduitParCat(Pageable pageable, int catId);
+    public List<Produit> listeProduitParCat(Long catId);
     public Page<Produit> listeProduitParPrix(double d, double f, int pageNumber, int pageSize);
 
 }

@@ -78,8 +78,8 @@ public class ProduitServiceImpl implements IProduitService{
     }
 
     @Override
-    public Page<Produit> listeProduitParCat(Pageable pageable, int catId) {
-        return produitRepository.findByCategorie(pageable,catId);
+    public List<Produit> listeProduitParCat(Long catId) {
+        return produitRepository.findByCategorie(catId);
     }
 
     @Override

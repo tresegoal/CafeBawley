@@ -90,6 +90,23 @@ public class ProduitRESTController {
         return new ResponseEntity<>(produits, headers, HttpStatus.OK);
     }
 
+    /**
+     * GET  /produits : get all the produits.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of articles in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
+     */
+    @RequestMapping(value = "/produits/categories/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Produit>> getAllProduitsParCategorie(@PathVariable Long id)
+            throws URISyntaxException {
+        log.debug("REST request to get a list of Produits");
+        List<Produit> produits = produitService.listeProduitParCat(id);
+        HttpHeaders headers = HeaderUtil.getListAlert("That is the Set of produits after /api/produits ", String.valueOf(produits.size()));
+        return new ResponseEntity<>(produits, headers, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/produitsPromotion",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
