@@ -62,6 +62,7 @@ public class Produit implements Serializable{
     //@JsonIgnore
     private Image image;
 
+    @Column(nullable = false)
     private boolean promotion;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")

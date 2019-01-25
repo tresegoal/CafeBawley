@@ -31,7 +31,6 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author Martins
  */
 @Entity
-//@JsonIgnoreProperties({"produits"})
 @JsonIgnoreProperties({"dateCreation","dateModification"})
 public class Categorie implements Serializable{
     @Id @GeneratedValue

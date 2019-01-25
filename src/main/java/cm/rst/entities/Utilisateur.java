@@ -40,6 +40,8 @@ public class Utilisateur implements UserDetails {
     private Date dateDeModification;
 
     private String provider;
+
+    @Transient
     private String image;
 
     @Transient
