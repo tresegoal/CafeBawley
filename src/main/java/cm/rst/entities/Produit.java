@@ -62,7 +62,7 @@ public class Produit implements Serializable{
     //@JsonIgnore
     private Image image;
 
-    private boolean promotion;
+    private boolean promotion = false;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)

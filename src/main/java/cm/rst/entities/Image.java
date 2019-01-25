@@ -34,7 +34,7 @@ public class Image implements Serializable{
 
     private String filename;
 
-    private boolean active = false;
+    //private boolean active = false;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
@@ -101,12 +101,12 @@ public class Image implements Serializable{
         this.produit = produit;
     }
 
-    public boolean isActive() {
+    /*public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
-    }
+    }*/
 }
 
