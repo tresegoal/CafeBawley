@@ -54,6 +54,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Utilisateur findById(Long id) {
+        return userRepository.findOne(id);
+    }
+
+    @Override
     public Utilisateur createUser(Utilisateur user, Set<UserRole> userRoles) {
         Utilisateur localUser = userRepository.findByUsername(user.getUsername());
 

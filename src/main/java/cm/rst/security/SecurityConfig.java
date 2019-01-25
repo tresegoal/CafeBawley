@@ -1,23 +1,32 @@
 package cm.rst.security;
 
 import cm.rst.Utils.SecurityUtility;
+import cm.rst.restController.utils.TokenAuthenticationFilter;
 import cm.rst.serviceImpl.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true
+)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     private static final String[] PUBLIC_MATCHERS = {
             "/css/**",
             "/js/**",
@@ -42,14 +51,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/connect/**",
             "/api/**"
     };
+
     @Autowired
     private Environment env;
     @Autowired
     private UserSecurityService userSecurityService;
 
+    @Bean
+    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+        return new TokenAuthenticationFilter();
+    }
+
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     private BCryptPasswordEncoder passwordEncoder() {
         return SecurityUtility.passwordEncoder();
     }
+
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -60,15 +85,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 permitAll().anyRequest().authenticated();
 
         http
-                .csrf().disable().cors().disable()
-                .formLogin().failureUrl("/login?error").defaultSuccessUrl("/")
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
+                .cors()
+                .disable()
+                .formLogin().failureUrl("/login?error")
+                .defaultSuccessUrl("/")
                 .loginPage("/login").permitAll()
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/?logout").deleteCookies("remember-me").permitAll()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/?logout")
+                .deleteCookies("remember-me").permitAll()
                 .and()
                 .rememberMe();
+        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

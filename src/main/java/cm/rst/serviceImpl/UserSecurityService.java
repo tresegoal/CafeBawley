@@ -15,15 +15,16 @@ public class UserSecurityService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Utilisateur user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String query) throws UsernameNotFoundException {
+        Utilisateur user = userRepository.findByUsername(query);
 
         if (null == user) {
-            throw new UsernameNotFoundException("Username introuvable");
+            throw new UsernameNotFoundException("Element introuvable");
         }
 
         return user;
     }
+
 
 }
 

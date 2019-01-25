@@ -2,8 +2,10 @@ package cm.rst.controller;
 
 import cm.rst.Utils.SecurityUtility;
 import cm.rst.Utils.USConstants;
+import cm.rst.dao.RoleRepository;
 import cm.rst.entities.*;
 import cm.rst.mails.MailConstructor;
+import cm.rst.restController.utils.TokenProvider;
 import cm.rst.security.PasswordResetToken;
 import cm.rst.service.IProduitService;
 import cm.rst.service.UserLivraisonService;
@@ -13,6 +15,7 @@ import cm.rst.serviceImpl.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,6 +48,9 @@ public class CompteController {
     private UserSecurityService userSecurityService;
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
     private IProduitService produitService;
 
     @Autowired
@@ -52,6 +58,12 @@ public class CompteController {
 
     @Autowired
     private UserLivraisonService userLivraisonService;
+
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     /*@RequestMapping("/")
     public String index() {
@@ -62,36 +74,6 @@ public class CompteController {
     public String login(Model model) {
         model.addAttribute("classActiveLogin", true);
         return "myAccount";
-    }
-
-    @RequestMapping("/bookshelf")
-    public String toutLesProduit(Model model) {
-        List<Produit> bookList = produitService.listerProduit();
-        model.addAttribute("bookList", bookList);
-
-        return "bookshelf";
-    }
-
-    @RequestMapping("/bookDetail")
-    public String produitDetail(
-            @PathParam("id") Long id, Model model, Principal principal
-    ) {
-        if (principal != null) {
-            String username = principal.getName();
-            Utilisateur user = userService.findByUsername(username);
-            model.addAttribute("user", user);
-        }
-
-        Produit produit = produitService.voirProduit(id);
-
-        model.addAttribute("book", produit);
-
-        List<Integer> qtyList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-
-        model.addAttribute("qtyList", qtyList);
-        model.addAttribute("qty", 1);
-
-        return "bookDetail";
     }
 
     @RequestMapping("/forgetPassword")
@@ -115,10 +97,12 @@ public class CompteController {
         String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
         user.setPassword(encryptedPassword);
 
-        userService.save(user);
+        //userService.save(user);
 
-        String token = UUID.randomUUID().toString();
-        userService.createPasswordResetTokenForUser(user, token);
+        Authentication authentication=authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email,password));
+
+        String token = tokenProvider.createToken(userService.save(user));
 
         String appUrl = "https://ancient-oasis-14558.herokuapp.com";
 
@@ -432,37 +416,46 @@ public class CompteController {
         model.addAttribute("classActiveNewAccount", true);
         model.addAttribute("email", userEmail);
         model.addAttribute("username", username);
-
+        System.out.println("Je suis en ligne dans login ...");
         if (userService.findByUsername(username) != null) {
             model.addAttribute("usernameExists", true);
-
+            System.out.println("Je suis en ligne dans user ... "+userService.findByUsername(username).getUsername());
             return "myAccount";
         }
 
         if (userService.findByEmail(userEmail) != null) {
             model.addAttribute("emailExists", true);
-
+            System.out.println("Je suis en ligne dans user ... "+userService.findByUsername(username).getEmail());
             return "myAccount";
         }
 
         Utilisateur user = new Utilisateur();
         user.setUsername(username);
         user.setEmail(userEmail);
+        System.out.println("Je suis un token du style ... 15 ");
 
         String password = SecurityUtility.randomPassword();
 
         String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
         user.setPassword(encryptedPassword);
+        // Role role = new Role("ROLE_USER");
+        Role role = roleRepository.findByname("ROLE_USER");
 
-        Role role = new Role("ROLE_USER");
-        /*role.setRoleId(1);
-        role.setName("ROLE_USER");*/
         Set<UserRole> userRoles = new HashSet<>();
         userRoles.add(new UserRole(user, role));
+        System.out.println("Je suis un token du style ... 0 ");
         userService.createUser(user, userRoles);
+        System.out.println("Je suis un token du style ... 1 ");
+//        Authentication authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+//                        user.getEmail(),
+//                password
+//                )).;
+        System.out.println("Je suis un token du style ... 2 ");
 
-        String token = UUID.randomUUID().toString();
-        userService.createPasswordResetTokenForUser(user, token);
+        String token = tokenProvider.createToken(userService.createUser(user, userRoles));
+
+        System.out.println("Je suis un token du style ... 3"+token);
+       // userService.createPasswordResetTokenForUser(user, token);
 
         String appUrl = "https://ancient-oasis-14558.herokuapp.com";
 
@@ -478,15 +471,18 @@ public class CompteController {
 
     @RequestMapping("/newUser")
     public String newUser(Locale locale, @RequestParam("token") String token, Model model) {
-        PasswordResetToken passToken = userService.getPasswordResetToken(token);
 
-        if (passToken == null) {
+        //PasswordResetToken passToken = userService.getPasswordResetToken(token);
+        Long userId = tokenProvider.getUserIdFromToken(token);
+
+
+        if (userId == null || !tokenProvider.validateToken(token)) {
             String message = "Invalid Token.";
             model.addAttribute("message", message);
             return "redirect:/badRequest";
         }
 
-        Utilisateur user = passToken.getUser();
+        Utilisateur user = userService.findById(userId);
         String username = user.getUsername();
 
         UserDetails userDetails = userSecurityService.loadUserByUsername(username);
@@ -504,6 +500,7 @@ public class CompteController {
 
     @RequestMapping(value = "updateUserInfo",method = RequestMethod.POST)
     public String updateUserInfos(Model model, Utilisateur user){
+
         userService.save(user);
 
         model.addAttribute("updateUserInfo", true);
@@ -572,7 +569,7 @@ public class CompteController {
     }
 
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
-    public String newUserPost(
+    public String newUser(
             HttpServletRequest request,
             @ModelAttribute("email") String userEmail,
             @ModelAttribute("username") String username,
@@ -624,7 +621,7 @@ public class CompteController {
         return "myAccount";
     }
 
-
+/*
     @RequestMapping("/newUser")
     public String newUser(Locale locale, @RequestParam("token") String token, Model model) {
         PasswordResetToken passToken = userService.getPasswordResetToken(token);

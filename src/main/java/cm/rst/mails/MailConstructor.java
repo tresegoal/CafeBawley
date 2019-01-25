@@ -18,6 +18,8 @@ public class MailConstructor {
     ) {
 
         String url = contextPath + "/newUser?token=" + token;
+
+        System.out.println("Je suis dans MailConstruction "+url);
         String message = "\nCliquer sur ce lien pour la vérification de votre email et la mise à jour de informations personnelles. Votre mot de passe est :\n" + password;
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(user.getEmail());

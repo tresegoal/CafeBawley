@@ -14,6 +14,8 @@ public interface UserService {
 
     Utilisateur findByEmail(String email);
 
+    Utilisateur findById(Long id);
+
     Utilisateur createUser(Utilisateur user, Set<UserRole> userRoles) throws Exception;
 
     Utilisateur save(Utilisateur user);
