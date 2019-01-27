@@ -49,7 +49,6 @@ public class Produit implements Serializable{
     private boolean active= false;
 
     @OneToMany(mappedBy = "produit")
-    //@JsonIgnoreProperties({"produitCommandes"})
     private List<ProduitCommande> ProduitCommandes;
 
     @ManyToOne

@@ -5,6 +5,8 @@
  */
 package cm.rst.serviceImpl;
 
+import cm.rst.controller.CategorieController;
+import cm.rst.controller.CompteController;
 import cm.rst.dao.ImageRepository;
 import cm.rst.entities.Image;
 import cm.rst.entities.Produit;
@@ -66,7 +68,7 @@ public class ImageServiceImpl implements IImageService{
     public Image creerImage(MultipartFile file,String filename, Produit produit) {
 
         try {
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename));
             Image img = new Image(filename, produit);
 
             return imageRepository.save(img);
@@ -82,7 +84,7 @@ public class ImageServiceImpl implements IImageService{
     public Image modifierImage(MultipartFile file,String filename, Produit produit,Image img) {
 
         try {
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename));
             img.setFilename(filename);
             img.setProduit(produit);
             return imageRepository.save(img);

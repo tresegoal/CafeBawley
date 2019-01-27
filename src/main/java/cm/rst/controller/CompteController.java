@@ -99,12 +99,13 @@ public class CompteController {
 
         //userService.save(user);
 
-        Authentication authentication=authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email,password));
+//        Authentication authentication=authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(email,password));
 
         String token = tokenProvider.createToken(userService.save(user));
 
-        String appUrl = "https://ancient-oasis-14558.herokuapp.com";
+       // String appUrl = "https://ancient-oasis-14558.herokuapp.com";
+        String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
         SimpleMailMessage newEmail = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user, password);
 
@@ -457,7 +458,8 @@ public class CompteController {
         System.out.println("Je suis un token du style ... 3"+token);
        // userService.createPasswordResetTokenForUser(user, token);
 
-        String appUrl = "https://ancient-oasis-14558.herokuapp.com";
+        //String appUrl = "https://ancient-oasis-14558.herokuapp.com";
+        String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
         SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user, password);
 

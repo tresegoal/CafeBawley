@@ -2,6 +2,7 @@ package cm.rst.security;
 
 import cm.rst.Utils.SecurityUtility;
 import cm.rst.restController.utils.TokenAuthenticationFilter;
+import cm.rst.restController.utils.TokenProvider;
 import cm.rst.serviceImpl.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -57,6 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserSecurityService userSecurityService;
 
+    @Autowired
+    private TokenProvider tokenProvider;
+
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter();
@@ -86,8 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
+                .disable()
                 .cors()
                 .disable()
                 .formLogin().failureUrl("/login?error")
@@ -100,6 +103,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("remember-me").permitAll()
                 .and()
                 .rememberMe();
+
+
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

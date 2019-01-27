@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -57,8 +58,11 @@ public class  CategorieController {
         if (bindingResult.hasErrors()) {
            return "redirect:/admincafe/categorie/addCategorie";
        } else {
-           Files.copy(filename.getInputStream(), this.rootLocation.resolve(filename.getOriginalFilename()));
-           categorie.setImage(filename.getOriginalFilename());
+
+            String storeFile= getNameFile(filename)+"."+getExtension(filename);
+
+            Files.copy(filename.getInputStream(), this.rootLocation.resolve(storeFile));
+           categorie.setImage(storeFile);
            ics.creerCategorie(categorie);
             redirAttrs.addFlashAttribute("messagecreate", "la categorie " +categorie.getDesignation()+ " a ete cree avec success" );
            return "redirect:/admincafe/categorie";
@@ -86,14 +90,26 @@ public class  CategorieController {
         //log("errors =" + bindingResult.getAllErrors());
            return "Categorie/edit";
        } else {
-           Files.copy(filename.getInputStream(), this.rootLocation.resolve(filename.getOriginalFilename()));
-           c.setImage(filename.getOriginalFilename());
+
+           String storeFile= getNameFile(filename)+"."+getExtension(filename);
+
+           Files.copy(filename.getInputStream(), this.rootLocation.resolve(storeFile));
+           c.setImage(storeFile);
            ics.modifierCategorie(c);
             redirAttrs.addFlashAttribute("messageupdate", "la categorie " +c.getDesignation()+ " a ete modifiee avec success" );
            return "redirect:/admincafe/categorie";
        }   
     }
-    
+
+
+    private static String getNameFile(MultipartFile file){
+        return file.getOriginalFilename().split("\\.")[0].hashCode()+UUID.randomUUID().toString();
+    }
+
+    private static String getExtension(MultipartFile file){
+        return file.getOriginalFilename().split("\\.")[1];
+    }
+
     @RequestMapping(value = "/deleteCategorie/{id}", method = RequestMethod.POST)
     public String Destroy(@PathVariable("id") long id, RedirectAttributes redirAttrs) {
        Categorie categorie = ics.voirCategorie(id);

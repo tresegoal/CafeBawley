@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -61,7 +62,7 @@ public class ImageController {
            return "redirect:/admincafe/images/addImage";
        }
         try {
-            String filename = file.getOriginalFilename();
+            String filename = getNameFile(file)+"."+getExtension(file);
             iImageService.creerImage(file,filename,produit);
             redirAttrs.addFlashAttribute("messagecreate", "l\'image " +img.getFilename()+ " a ete cree avec success" );
         } catch (Exception e) {
@@ -70,6 +71,14 @@ public class ImageController {
 
            return "redirect:/admincafe/images";
 
+    }
+
+    private static String getNameFile(MultipartFile file){
+        return file.getOriginalFilename().split("\\.")[0].hashCode()+ UUID.randomUUID().toString();
+    }
+
+    private static String getExtension(MultipartFile file){
+        return file.getOriginalFilename().split("\\.")[1];
     }
     
     @RequestMapping(value = "/voirImage/{id}", method = RequestMethod.GET)
@@ -97,7 +106,8 @@ public class ImageController {
           return  "redirect:/admincafe/images/editImage";
        }
         try {
-            String filename = file.getOriginalFilename();
+            //String filename = file.getOriginalFilename();
+            String filename = getNameFile(file)+"."+getExtension(file);
             iImageService.modifierImage(file,filename,produit,img);
             redirAttrs.addFlashAttribute("messageupdate", "l\'image " +img.getFilename()+ " a ete modifiee avec success" );
         } catch (Exception e) {

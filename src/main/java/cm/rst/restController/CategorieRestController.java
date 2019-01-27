@@ -6,6 +6,8 @@ package cm.rst.restController;
 
 import cm.rst.entities.Categorie;
 import cm.rst.restController.utils.HeaderUtil;
+import cm.rst.restController.utils.TokenAuthenticationFilter;
+import cm.rst.restController.utils.TokenProvider;
 import cm.rst.serviceImpl.CategorieServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,6 +36,10 @@ public class CategorieRestController {
 
     @Autowired
     private CategorieServiceImpl categorieService;
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    private TokenAuthenticationFilter tokenAuthenticationFilter = new TokenAuthenticationFilter();
 
 
     /**
@@ -46,6 +53,7 @@ public class CategorieRestController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Categorie> createCategorie(@Valid @RequestBody Categorie categorie) throws URISyntaxException {
+
         log.debug("REST request to save Categorie : {}", categorie);
         if (categorie.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("categorie", "idexists", "A new categorie cannot already have an ID")).body(null);
@@ -71,7 +79,7 @@ public class CategorieRestController {
     public ResponseEntity<Categorie> updateCategorie(@Valid @RequestBody Categorie categorie) throws URISyntaxException {
         log.debug("REST request to update Categorie : {}", categorie);
         if (categorie.getId() == null) {
-            return createCategorie(categorie);
+            return  createCategorie(categorie);
         }
         Categorie result = categorieService.modifierCategorie(categorie);
         return ResponseEntity.ok()
@@ -88,8 +96,10 @@ public class CategorieRestController {
     @RequestMapping(value = "/categories",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Categorie>> getAllCategories()
+    public ResponseEntity<List<Categorie>> getAllCategories(HttpServletRequest request)
             throws URISyntaxException {
+        String token = tokenAuthenticationFilter.getJwtFromRequest(request);
+        tokenProvider.validateToken(token);
         log.debug("REST request to get a list of Categories");
         List<Categorie> categories = categorieService.listerCategorie();
         HttpHeaders headers = HeaderUtil.getListAlert("That is the Set of categories after /api/categories ",String.valueOf(categories.size()));
